@@ -4,7 +4,7 @@
 Scrapes novelpia to fetch novel metadata (title, synopsis, author, tags, age, status) to JSONL.
  <br> <br> 
 Along with some other .py files to organize and handle the data
-
+## How to improve
 When you search on Novelpia, you get a URL like this:
 https://novelpia.com/search/all//1/판타지?page=1&rows=100&novel_type=&start_count_book=&end_count_book=&novel_age=&start_days=&sort_col=count_view&novel_genre=&block_out=0&block_stop=0&is_contest=0&is_complete=&is_challenge=0&list_display=list
 <br>
