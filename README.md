@@ -19,7 +19,7 @@ The key part is everything after the question mark.
 
     Once you see how many total novels there are (e.g., "총 35,766개 작품"), you can just have your script loop through all the pages. For this example, that's pages 1 to 357 (and maybe 358 just to be safe).
 
-This lets you grab a ton of metadata (author, views, etc.) from every single novel without making a unique request for each one, avoiding ip bans and data usage. The only issue is you won't get the synopsis this way, so you then use this list of valid ids/etc to THEN scrape like I do here (go through each id and load /novel/id html content and scrape what you need.)
+This lets you grab a ton of metadata (author, views, etc.) from every single novel without making a unique request for each one, avoiding ip bans and data usage. The only issue is you won't get the synopsis this way, so you then use this list of valid ids/etc to THEN scrape like I do here (go through each id and load /novel/id html content and scrape what you need. [Avoids making 380,000 request and indexing deleted novels.. Though you need an adult verified account to search and index adult content this way] )
 
 Then, you can:
 
