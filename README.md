@@ -4,7 +4,7 @@
 Scrapes novelpia to fetch novel metadata (title, synopsis, author, tags, age, status) to JSONL.
  <br> <br> 
 Along with some other .py files to organize and handle the data
-## How to improve
+## How to improve this shitty script
 When you search on Novelpia, you get a URL like this:
 https://novelpia.com/search/all//1/판타지?page=1&rows=100&novel_type=&start_count_book=&end_count_book=&novel_age=&start_days=&sort_col=count_view&novel_genre=&block_out=0&block_stop=0&is_contest=0&is_complete=&is_challenge=0&list_display=list
 <br>
@@ -13,9 +13,9 @@ https://novelpia.com/search/all//1/판타지?page=1&rows=100&novel_type=&start_c
 
     %ED%8C%90%ED%83%80%EC%A7%80 is just 판타지 (the tag) in a different format. 
 
-The key part is all that stuff after the question mark. 
+The key part is everything after the question mark. 
 
-    rows=100 . The default is like 30, but you can change it up to 100-1000 to get more results per page || request.
+    rows=100 . The default is 30~, but you can change it up to 100-1000 to get more results per page || request.
 
     Once you see how many total novels there are (e.g., "총 35,766개 작품"), you can just have your script loop through all the pages. For this example, that's pages 1 to 357 (and maybe 358 just to be safe).
 
