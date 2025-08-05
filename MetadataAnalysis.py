@@ -67,11 +67,11 @@ def calculate_average_chapters(jsonl_filepath, required_tags=None, optional_tags
                             continue # Skip if only completed works are required and not met
 
                     # Apply minimum likes filter
-                    # Check if 'total_likes' key exists and is a number before accessing it
-                    if 'total_likes' in record and isinstance(record['total_likes'], (int, float)):
-                        if record['total_likes'] < min_likes:
+                    # Check if 'like_count' key exists and is a number before accessing it
+                    if 'like_count' in record and isinstance(record['like_count'], (int, float)):
+                        if record['like_count'] < min_likes:
                             continue
-                    elif min_likes > 0: # If min_likes is set but 'total_likes' is missing, skip
+                    elif min_likes > 0: # If min_likes is set but 'like_count' is missing, skip
                         continue
 
                     # Apply minimum chapters filter
@@ -128,6 +128,32 @@ def calculate_average_chapters(jsonl_filepath, required_tags=None, optional_tags
         print(f"Processed {record_count} records in {processing_time:.4f} seconds.")
         print(f"Total chapters summed: {total_chapters}")
         print(f"**Average chapter count for filtered records: {average_chapters:.2f}**")
+
+        # Add the custom size estimation logic here
+        # Assuming the total number of novels is the record_count
+        # and the total number of chapters is total_chapters
+
+        # Uncompressed estimate: 16kb - 1MB per chapter
+        min_uncompressed_mb = (total_chapters * 16) / 1024
+        max_uncompressed_mb = (total_chapters * 1024) / 1024
+        
+        # Compressed estimates based on the provided ranges
+        # The provided ranges are per chapter, so we multiply by total_chapters
+        min_size_compressed_80 = (total_chapters * 16) / 1024
+        max_size_compressed_80 = (total_chapters * (16 + 88)) / 1024
+
+        min_size_compressed_50 = (total_chapters * 16) / 1024
+        max_size_compressed_50 = (total_chapters * (16 + 44)) / 1024
+
+        min_size_compressed_0 = (total_chapters * 16) / 1024
+        max_size_compressed_0 = (total_chapters * (16 + 23)) / 1024
+
+        print(f"\n--- Rough Size Guess ---")
+        print(f"Uncompressed: {min_uncompressed_mb:.2f}MB - {max_uncompressed_mb:.2f}MB")
+        print(f"80% Compressed: {min_size_compressed_80:.2f}MB - {max_size_compressed_80:.2f}MB")
+        print(f"50% Compressed: {min_size_compressed_50:.2f}MB - {max_size_compressed_50:.2f}MB")
+        print(f"0% Compressed: {min_size_compressed_0:.2f}MB - {max_size_compressed_0:.2f}MB")
+
         return average_chapters, all_tags, filtered_records_info
     else:
         print("No valid records found based on your criteria.")
