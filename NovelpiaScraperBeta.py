@@ -146,7 +146,7 @@ async def fetch_page(session, novel_id_str, semaphore, min_delay, max_delay):
             raise
 
 async def download_cover(session, url, local_path, current_download_size_bytes_ref, max_storage_bytes, min_delay, max_delay):
-    """Downloads and saves a novel cover image."""
+    """Downloads and saves a novel cover image, handling different image modes."""
     await asyncio.sleep(random.uniform(min_delay, max_delay))
     headers = {"User-Agent": random.choice(USER_AGENTS), "Referer": "https://novelpia.com/"}
 
@@ -160,7 +160,8 @@ async def download_cover(session, url, local_path, current_download_size_bytes_r
                 return "SKIPPED_LIMIT"
             try:
                 img = Image.open(BytesIO(content))
-                if img.mode == 'RGBA':
+                # Convert various modes to RGB before saving as JPEG
+                if img.mode in ('RGBA', 'P', 'LA'):
                     img = img.convert('RGB')
                 img.save(local_path, "JPEG", quality=85)
             except Exception as e:
@@ -532,10 +533,10 @@ async def run_rescrape(config, semaphore, current_download_size_bytes, forbidden
             f_output.close()
             if success:
                 os.replace(temp_output_file, config['output_file'])
-                print(f"\nSuccessfully rescraped. '{config['output_file']}' has been updated.")
+                print(f"\n\nSuccessfully rescraped. '{config['output_file']}' has been updated.")
             else:
                 os.remove(temp_output_file)
-                print(f"\nRescrape failed or was interrupted. Original file '{config['output_file']}' is untouched.")
+                print(f"\n\nRescrape failed or was interrupted. Original file '{config['output_file']}' is untouched.")
             print() # Newline after progress bar
             print_summary("Rescraping", len(ids_to_process), found_count, covers_downloaded, current_download_size_bytes[0], start_time)
 
